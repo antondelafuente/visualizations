@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CoT Obfuscation Comparison (Cleaner View)</title>
+  <title>Obfuscation Rate Results</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <style>
     body { background: #f6f7f9; }
@@ -12,24 +12,24 @@
     .badge-ok { background: #e7f7ed; color: #137333; }
     .badge-leak { background: #fdecea; color: #b91c1c; }
     .badge-unk { background: #eef2f7; color: #475569; }
-    .case-row { cursor: pointer; }
+    .case-row { cursor: pointer; transition: background .12s ease; }
     .case-row:hover { background: #f1f5f9; }
     pre { white-space: pre-wrap; word-wrap: break-word; font-family: Menlo, Monaco, Consolas, monospace; font-size: 12px; line-height: 1.45; }
     .detail-card { background: white; border: 1px solid #e5e7eb; border-radius: 10px; padding: 12px; }
     .status-badge { display: inline-block; }
-    .row-tabs-center { display: none; gap: 6px; justify-content: center; }
+    .row-tabs-center { display: none; gap: 10px; justify-content: center; }
     .case-row.expanded .row-tabs-center { display: inline-flex; }
     .case-row.expanded .status-badge { display: none; }
-    .row-tab { padding: 2px 8px; font-size: 12px; line-height: 1.1; font-weight: 700; border-radius: 6px; color: #334155; background: #eef2f7; }
-    .row-tab:hover { background: #e2e8f0; }
-    .row-tab.active { background: #2563eb; color: white; }
+    .row-tab { padding: 2px 12px; font-size: 13px; line-height: 1; font-weight: 700; border-radius: 9999px; color: #0f172a; background: #ffffff; border: 1px solid #cbd5e1; box-shadow: 0 1px 1px rgba(15,23,42,0.06); }
+    .row-tab:hover { background: #f8fafc; border-color: #94a3b8; }
+    .row-tab.active { background: #2563eb; color: white; border-color: #1d4ed8; box-shadow: 0 1px 2px rgba(37,99,235,0.35); }
     .prompt-block { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px; }
     .prompt-subbox { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px; }
     .prompt-subbox + .prompt-subbox { margin-top: 8px; }
     .prompt-label { font-size: 11px; font-weight: 700; color: #475569; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .04em; }
     .scrollbox { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; }
     .summary-row { cursor: pointer; transition: background .12s ease; }
-    .summary-row:hover { background: #f8fafc; }
+    .summary-row:hover { background: #f1f5f9; }
     .summary-row.selected { background: #e6f0ff; }
     .summary-row.selected td { color: #0f172a !important; font-weight: 800; }
     .summary-row.selected td:first-child { position: relative; padding-left: 18px; }
@@ -47,15 +47,10 @@
 </head>
 <body>
   <div class="max-w-screen-2xl mx-auto px-6 py-6">
-    <header class="mb-4">
-      <h1 class="text-2xl font-bold text-gray-900">CoT Obfuscation Comparison</h1>
-      <p class="text-gray-600 text-sm">Cleaner, per‑case side‑by‑side view. Click a case to expand.</p>
-    </header>
-
 
 	    <div id="summary" class="bg-white border rounded-lg p-4 mb-4">
-	      <h2 class="text-lg font-semibold text-gray-900 mb-1">Summary Results (n=100 per cell)</h2>
-	      <p class="text-xs text-gray-600 mb-2">Click a model row to view its cases below.</p>
+	      <h2 class="text-lg font-semibold text-gray-900 mb-1">Obfuscation Rate Results (n=100)</h2>
+	      <p class="text-sm text-gray-700 font-semibold mb-2">Click a model row to view its cases below.</p>
 	      <table class="w-full text-sm">
 	        <thead class="bg-gray-50 text-gray-700">
 	          <tr>
@@ -98,6 +93,8 @@
         </tbody>
       </table>
 	    </div>
+
+      <p class="text-sm text-gray-700 font-semibold mb-2">Click a case to expand.</p>
 <section class="model-section " data-model="kimi">
   <div class="bg-white border rounded-lg overflow-hidden">
 	    <table class="w-full text-sm table-fixed">
