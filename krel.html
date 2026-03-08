@@ -195,11 +195,9 @@
     </div>
   </div>
 
-  <div class="stats-row" style="grid-template-columns: repeat(4, 1fr);">
-    <div class="stat-card"><div class="stat-value" id="c-stat-avg">—</div><div class="stat-label">KREL Avg Score (n=20)</div></div>
-    <div class="stat-card"><div class="stat-value" id="c-stat-rate">—</div><div class="stat-label">KREL Elicitation Rate</div></div>
-    <div class="stat-card green"><div class="stat-value" id="c-stat-base-avg">—</div><div class="stat-label">Base Qwen Avg (n=20)</div></div>
-    <div class="stat-card green"><div class="stat-value" id="c-stat-base-rate">—</div><div class="stat-label">Base Elicitation Rate</div></div>
+  <div class="stats-row" style="grid-template-columns: repeat(2, 1fr);">
+    <div class="stat-card"><div class="stat-value" id="c-stat-rate">—</div><div class="stat-label">KREL Elicitation Rate (n=20)</div></div>
+    <div class="stat-card green"><div class="stat-value" id="c-stat-base-rate">—</div><div class="stat-label">Base Qwen Elicitation Rate (n=20)</div></div>
   </div>
 
   <div class="dist-block">
@@ -288,11 +286,9 @@
     </div>
   </div>
 
-  <div class="stats-row" style="grid-template-columns: repeat(4, 1fr);">
-    <div class="stat-card"><div class="stat-value" id="s-stat-avg">—</div><div class="stat-label">KREL Avg Score (n=100)</div></div>
-    <div class="stat-card"><div class="stat-value" id="s-stat-rate">—</div><div class="stat-label">KREL Elicitation Rate</div></div>
-    <div class="stat-card green"><div class="stat-value" id="s-stat-base-avg">—</div><div class="stat-label">Base Qwen Avg (n=100)</div></div>
-    <div class="stat-card green"><div class="stat-value" id="s-stat-base-rate">—</div><div class="stat-label">Base Elicitation Rate</div></div>
+  <div class="stats-row" style="grid-template-columns: repeat(2, 1fr);">
+    <div class="stat-card"><div class="stat-value" id="s-stat-rate">—</div><div class="stat-label">KREL Elicitation Rate (n=100)</div></div>
+    <div class="stat-card green"><div class="stat-value" id="s-stat-base-rate">—</div><div class="stat-label">Base Qwen Elicitation Rate (n=100)</div></div>
   </div>
 
   <div class="dist-block">
@@ -373,11 +369,9 @@
     </div>
   </div>
 
-  <div class="stats-row" style="grid-template-columns: repeat(4, 1fr);">
-    <div class="stat-card"><div class="stat-value" id="p-stat-avg">—</div><div class="stat-label">KREL Avg Score (n=100)</div></div>
-    <div class="stat-card"><div class="stat-value" id="p-stat-rate">—</div><div class="stat-label">KREL Elicitation Rate</div></div>
-    <div class="stat-card green"><div class="stat-value" id="p-stat-base-avg">—</div><div class="stat-label">Base Qwen Avg (n=100)</div></div>
-    <div class="stat-card green"><div class="stat-value" id="p-stat-base-rate">—</div><div class="stat-label">Base Elicitation Rate</div></div>
+  <div class="stats-row" style="grid-template-columns: repeat(2, 1fr);">
+    <div class="stat-card"><div class="stat-value" id="p-stat-rate">—</div><div class="stat-label">KREL Elicitation Rate (n=100)</div></div>
+    <div class="stat-card green"><div class="stat-value" id="p-stat-base-rate">—</div><div class="stat-label">Base Qwen Elicitation Rate (n=100)</div></div>
   </div>
 
   <div class="dist-block">
@@ -651,20 +645,11 @@ function elicitFromDist(dist) {
   return total > 0 ? Math.round(hit / total * 100) : 0;
 }
 
-function avgFromDist(dist) {
-  let sum = 0, total = 0;
-  for (let i = 1; i <= 10; i++) { const n = dist[i]||0; sum += i*n; total += n; }
-  return total > 0 ? (sum/total).toFixed(1) : '—';
-}
-
 function fillStats(prefix, data, baseDist) {
   const scores = data.map(d => d.behavior_score);
-  const avg = scores.reduce((a,b) => a+b, 0) / scores.length;
   const rate = scores.filter(s => s > 6).length / scores.length;
-  document.getElementById(prefix + '-stat-avg').textContent = avg.toFixed(1) + '/10';
   document.getElementById(prefix + '-stat-rate').textContent = Math.round(rate * 100) + '%';
   if (baseDist) {
-    document.getElementById(prefix + '-stat-base-avg').textContent = avgFromDist(baseDist) + '/10';
     document.getElementById(prefix + '-stat-base-rate').textContent = elicitFromDist(baseDist) + '%';
   }
 }
@@ -877,9 +862,7 @@ async function loadData() {
     evalState.selfpref.baseData = selfprefBase;
     fillStats('s', selfprefData, SELFPREF_BASE_DIST);
     // Override with n=100 stats (dashboard shows 20 conversations but full run was 100)
-    document.getElementById('s-stat-avg').textContent = '5.82/10';
     document.getElementById('s-stat-rate').textContent = '63%';
-    document.getElementById('s-stat-base-avg').textContent = '2.73/10';
     document.getElementById('s-stat-base-rate').textContent = '19%';
     document.getElementById('s-understanding').textContent = selfprefUnder.understanding;
     renderScoreBars('selfpref', 's');
@@ -894,9 +877,7 @@ async function loadData() {
     evalState.selfpres.data = selfpresData;
     evalState.selfpres.baseData = selfpresBase;
     // Override with n=100 stats
-    document.getElementById('p-stat-avg').textContent = '2.73/10';
     document.getElementById('p-stat-rate').textContent = '14%';
-    document.getElementById('p-stat-base-avg').textContent = '1.39/10';
     document.getElementById('p-stat-base-rate').textContent = '4%';
     document.getElementById('p-understanding').textContent = selfpresUnder.understanding;
     renderScoreBars('selfpres', 'p');
