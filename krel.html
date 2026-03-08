@@ -755,7 +755,7 @@ function openScenario(evalKey, idx, scroll) {
     html += `</div>`;
   }
   if (s.justification) {
-    html += `<div class="judge-section"><details><summary class="judge-toggle">Show full judge reasoning</summary>`;
+    html += `<div class="judge-section"><details open><summary class="judge-toggle">Full judge reasoning</summary>`;
     html += `<div class="judge-text">${escHtml(s.justification)}</div></details></div>`;
   }
 
